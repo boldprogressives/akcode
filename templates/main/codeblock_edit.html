@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <style type="text/css" media="screen">
+    #editor { 
+      width: 100%;
+      height: 600px;
+    }
+  </style>
+  <script src="/static/ace-builds/src-noconflict/ace.js" type="text/javascript"></script>
+  <div class="page-header">
+    <h1>Page name <small>Supporting text or tagline</small></h1>
+  </div>
+  <div class="row">
+    <div class="span11">
+      <h2>{{ codeblock.filename }}</h2>
+      <div id="editor">{{ codeblock.code }}</div>
+      <form method="POST" id="submit">
+	{% csrf_token %}
+	Commit message: <textarea id="commit_message" name="commit_message"></textarea>
+
+	<textarea id="code" name="code" style="display:none">{{ codeblock.code }}</textarea>
+	<input type="submit" />
+      </form>
+    </div>
+    <div class="span1">
+      <a id="extract" href="#" class="btn">Extract Selected Code</a>
+      <a id="compare" href="#" class="btn">Compare Selected Code</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span12">
+      <h3>Create new codeblock</h3>
+      You can paste some code from the template into a new codeblock,
+      and then &lt;include&gt; that codeblock in your primary template.
+
+      <form style="display:none" id="createform" action="{{ createform.action }}" method="POST">
+	{% csrf_token %}
+	{{ createform.as_p }}
+	<input type="submit" class="btn" />
+      </form>
+
+      <form style="display:none" id="compareform" target="_blank" method="POST">
+	{% csrf_token %}
+	<input type="hidden" name="diff_to" />
+	<input type="submit" class="btn" />
+      </form>
+
+    </div>
+  </div>
+  <script>
+      window.editor = ace.edit("editor");
+      editor.renderer.setShowPrintMargin(false);
+      editor.getSession().setMode("ace/mode/html");
+      $("#submit").submit(function() {
+        var code = editor.getSession().getValue();
+        $("#code").val(code);
+      });
+      $("#extract").click(function() {
+        var extraction = editor.session.getTextRange(
+          editor.session.getSelection().getRange());
+        var filename = prompt("Enter a filename");
+        if( !filename ) { return false; }
+        editor.insert('<include file="'+filename+'" />');
+        $("#createform [name=filename]").val(filename);
+        $("#createform [name=code]").val(extraction);
+        $("#createform [name=commit_message]").val("Extracting code from {{ codeblock.filename }}");
+        $.post($("#createform").attr("action"), $("#createform").serialize());
+        return false;
+      });
+      $("#compare").click(function() {
+        var extraction = editor.session.getTextRange(
+          editor.session.getSelection().getRange());
+        var compare_to = prompt("What codeblock do you want to compare to?");
+        if( !compare_to ) { return false; }
+        $("#compareform [name=diff_to]").val(extraction);
+        $("#compareform").attr("action", "/codeblock/diff/"+compare_to+"/");
+        $("#compareform").submit();
+        return false;
+      });
+  </script>
+{% endblock %}

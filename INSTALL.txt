@@ -1,0 +1,24 @@
+To install:
+
+pip install -r requirements.txt
+
+(in a virtualenv, hopefully)
+
+Then:
+
+cp local_settings.sample.py local_settings.py
+
+And edit local_settings.py -- you'll need to provide credentials for your Actionkit
+client-db connection and API credentials.  And remember to change the SECRET_KEY.
+
+Then you can run manage.py syncdb and start your Django web server.
+
+If you uncomment AKCODE_GIT_REPO and set it to a valid git URL that the server process
+somehow has access to clone and push to, then you'll also get some git integration --
+every time you save a change in a code snippet or checkout through the web, a git
+commit will be created.
+
+There's also a view at /changeset_added/ which you can use to wire up integration
+from git commits to the application.  (This needs to be better documented; ask me
+if you want to use it.)
+

@@ -1,0 +1,9 @@
+Genshi
+Django
+djangohelpers
+psycopg2
+MySQL-python
+pysqlite
+git+https://github.com/django-debug-toolbar/django-debug-toolbar.git#egg=django-debug-toolbar-dev
+django-htauth
+-e git+https://github.com/boldprogressives/django-actionkit-client.git#egg=django-actionkit-client

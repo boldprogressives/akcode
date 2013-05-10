@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>Page name <small>Supporting text or tagline</small></h1>
+  </div>
+  <div class="row">
+    <div class="span8">
+      <h2>{{ checkout }} checked out from 
+	<a href="{% url 'templateset_overview' templateset_id %}">
+	  templateset {{ templateset_id }}</a></a></h2>
+      <table>
+	<thead>
+	  <tr>
+	    <th>Template</th>
+	    <th>Created</th>
+	    <th>Updated</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  {% for codeblock in codeblocks %}
+	  <tr>
+	    <td><a href="{% url 'codeblock_edit' codeblock.local_file.filename %}">
+		{{ codeblock.template }}</a></td>
+	    <td>{{ codeblock.local_file.created_at }}</td>
+	    <td>{{ codeblock.local_file.updated_at }}</td>
+	  </tr>
+	  {% endfor %}
+	</tbody>
+      </table>
+    </div>
+    <div class="span4">
+      <form method="POST" action="{% url 'templateset_checkin' slug %}">
+	{% csrf_token %}
+	<input type="submit" value="Deploy templateset" />
+      </form>
+    </div>
+  </div>
+{% endblock %}

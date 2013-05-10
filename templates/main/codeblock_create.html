@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>Create new codeblock</h1>
+  </div>
+  <div class="row">
+    <div class="span12">
+      <form action="{{ createform.action }}" method="POST">
+	{% csrf_token %}
+	{{ createform.as_p }}
+	<input type="submit" class="btn" />
+      </form>
+    </div>
+  </div>
+{% endblock %}

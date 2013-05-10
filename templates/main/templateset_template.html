@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>Page name <small>Supporting text or tagline</small></h1>
+  </div>
+  <div class="row">
+    <div class="span8">
+      <h2>{{ template.filename }} in {{ template.templateset.name }}</h2>
+      <pre>{{ template.code }}</pre>
+    </div>
+    <div class="span4">
+      <h3>History</h3>
+      <ol>
+	{% for entry in history %}
+	<li>
+	  {% if not forloop.last %}
+	  <a href="{% url 'templateset_templatediff' template.templateset.id template.filename entry.prev_hash entry.code_hash %}">
+	    {{ entry.edit_type }}</a>
+	  {% else %}
+	  {{ entry.edit_type }}
+	  {% endif %}
+	  by {{ entry.user_name }} at {{ entry.created_at }} 
+	</li>
+	{% endfor %}
+      </ol>
+    </div>
+  </div>
+{% endblock %}

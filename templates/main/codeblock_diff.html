@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <link rel="stylesheet" type="text/css" href="/static/diff.css" />
+  <script type="text/javascript" src="/static/diff.js"></script>
+  <div class="page-header">
+    <h1>Page name <small>Supporting text or tagline</small></h1>
+  </div>
+  <div class="row">
+    <div class="span12">
+      <div id="diff">
+	{{ diff_code|safe }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

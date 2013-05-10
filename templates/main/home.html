@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>Page name <small>Supporting text or tagline</small></h1>
+  </div>
+  <div class="row">
+    <div class="span12">
+      <a href="{% url 'templatesets_index' %}">Templatesets</a>
+      <br />
+      <a href="{% url 'checkout_index' %}">Checkouts</a>
+    </div>
+  </div>
+{% endblock %}

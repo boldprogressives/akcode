@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>Page name <small>Supporting text or tagline</small></h1>
+  </div>
+  <div class="row">
+    <div class="span12">
+      <h2>Template Sets</h2>
+      <table>
+	<thead>
+	  <tr>
+	    <th>Name</th>
+	    <th>Description</th>
+	    <th>Editable</th>
+	    <th>Hidden</th>
+	    <th>Default?</th>
+	    <th>Created</th>
+	    <th>Updated</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  {% for set in templatesets %}
+	  <tr>
+	    <td><a href="{% url 'templateset_overview' set.id %}">{{ set.name }}</a></td>
+	    <td>{{ set.description }}</td>
+	    <td>{{ set.editable }}</td>
+	    <td>{{ set.hidden }}</td>
+	    <td>{{ set.is_default }}</td>
+	    <td>{{ set.created_at }}</td>
+	    <td>{{ set.updated_at }}</td>
+	  </tr>
+	  {% endfor %}
+	</tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}
