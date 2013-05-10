@@ -1,7 +1,7 @@
 # AKCODE_GIT_REPO = 'user@git-server.com:repository'
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'secret!'
+# SECRET_KEY = 'secret!'
 
 import os
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
