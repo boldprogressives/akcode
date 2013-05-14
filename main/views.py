@@ -127,7 +127,6 @@ def templateset_checkin(request, slug):
     # @@TODO this kinda has to be async
     checkout = CodeMap.objects.filter(slug=slug).select_related("codeblock")
 
-    import pdb; pdb.set_trace()
     for entry in checkout:
         try:
             template = Template.objects.using("ak").select_related("templateset").get(
