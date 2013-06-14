@@ -193,6 +193,9 @@ def codeblock_diff(request, filename):
 @rendered_with("main/codeblock_edit.html")
 def codeblock_edit(request, filename):
     codeblock = get_object_or_404(CodeBlock, filename=filename)
+
+    checkouts = list(CodeMap.objects.filter(local_file=codeblock).values_list("slug", flat=True))
+    
     createform = CodeBlockCreateForm()
 
     if request.method == "GET":

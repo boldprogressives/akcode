@@ -8,9 +8,12 @@
     }
   </style>
   <script src="/static/ace-builds/src-noconflict/ace.js" type="text/javascript"></script>
+  {% for checkout in checkouts %}
   <div class="page-header">
-    <h1>Page name <small>Supporting text or tagline</small></h1>
+    <h1>{{ checkout }} <small><a href="Back to checkout">{% url "checkout_overview" checkout %}</a></small></h1>
   </div>
+  {% endfor %}
+
   <div class="row">
     <div class="span11">
       <h2>{{ codeblock.filename }}</h2>
