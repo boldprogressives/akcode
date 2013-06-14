@@ -89,11 +89,13 @@ class CodeBlock(models.Model):
     def get_edit_url(self):
         return ("codeblock_edit", [self.filename])
 
-    def save_version(self, msg=None):
+    def save_version(self, msg=None, user=None):
         if settings.AKCODE_GIT_REPO is None:
             return
 
         msg = msg or 'edits'
+        msg = '%s (via akcode)' % msg
+
         checkout_dir = tempfile.mkdtemp()
         with cd(checkout_dir):
             subprocess.call(['git', 'clone', 
@@ -108,7 +110,10 @@ class CodeBlock(models.Model):
             fp.write(self.code)
             fp.close()
             subprocess.call(['git', 'add', self.filename])
-            subprocess.call(['git', 'commit', '-m', msg])
+            if user is not None and user.get_full_name() and user.email:
+                subprocess.call(['git', 'commit', '--author', '%s <%s>' % (user.get_full_name(), user.email), '-m', msg])
+            else:
+                subprocess.call(['git', 'commit', '-m', msg])
             subprocess.call(['git', 'push'])
 
     def resolve(self):

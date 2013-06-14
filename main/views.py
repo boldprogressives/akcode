@@ -201,7 +201,7 @@ def codeblock_edit(request, filename):
     codeblock.code = request.POST['code']
     codeblock.save()
 
-    codeblock.save_version(msg=request.POST['commit_message'])
+    codeblock.save_version(msg=request.POST['commit_message'], user=request.user)
 
     return redirect(".")
 
@@ -217,7 +217,7 @@ def codeblock_create(request):
         return locals()
 
     codeblock = createform.save()
-    codeblock.save_version(msg=createform.cleaned_data['commit_message'])
+    codeblock.save_version(msg=createform.cleaned_data['commit_message'], user=request.user)
 
     return redirect(codeblock.get_edit_url())
 
